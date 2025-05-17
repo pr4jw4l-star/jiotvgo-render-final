@@ -42,13 +42,10 @@ def generate_playlist(config_path, output_path):
     channels = get_channels(config)
 
     with open(output_path, "w") as f:
-        f.write("#EXTM3U
-")
+        f.write("#EXTM3U\n")
         for ch in channels:
             stream_url = build_stream_url(ch["id"], config)
-            f.write(f"#EXTINF:-1,{ch['name']}
-{stream_url}
-")
+            f.write(f"#EXTINF:-1,{ch['name']}\n{stream_url}\n")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
