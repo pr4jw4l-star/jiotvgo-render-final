@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import PlainTextResponse
-import json
 import subprocess
+import json
 
 app = FastAPI()
 
@@ -31,6 +31,8 @@ def get_playlist(request: Request):
     )
 
     if result.returncode != 0:
+        print("🔴 Error running jiotv.py:")
+        print(result.stderr)
         raise HTTPException(status_code=500, detail="Playlist generation failed.")
 
     with open("playlist.m3u", "r") as f:
@@ -38,7 +40,6 @@ def get_playlist(request: Request):
 
 @app.get("/epg.xml", response_class=PlainTextResponse)
 def get_epg():
-    # This returns a very basic EPG XML (normally you would fetch it from an external API)
     return '''<?xml version="1.0" encoding="UTF-8"?>
 <tv>
   <channel id="ColorsHD"><display-name>Colors HD</display-name></channel>
